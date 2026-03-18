@@ -1,6 +1,6 @@
 Finite Element Method (FEM) Truss Solver
 
-A MATLAB-based Finite Element Analysis tool designed to solve static linear elastic problems for 2D truss structures. The solver calculates global displacements, reaction forces, and internal stresses, providing a visual comparison between the undeformed and deformed configurations.
+A MATLAB-based Finite Element Analysis tool designed to solve static linear elastic problems for truss structures. The solver calculates global displacements, reaction forces, and internal stresses, providing a visual comparison between the undeformed and deformed configurations.
 ## Features
 
     Automated Assembly: Generates global stiffness matrices from element-level properties.
