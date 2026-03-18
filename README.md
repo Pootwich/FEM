@@ -9,7 +9,7 @@ A MATLAB-based Finite Element Analysis tool designed to solve static linear elas
 
     Static Solver: Partitions the global system of equations (KU=F) to solve for unknown displacements and reaction forces.
 
-    Post-Processing: * Visualizes the mesh with node and element numbering.
+    Post-Processing: Visualizes the mesh with node and element numbering.
 
         Plots the deformed shape with a user-defined magnification factor (mag).
 
