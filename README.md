@@ -46,15 +46,22 @@ A MATLAB-based Finite Element Analysis tool designed to solve static linear elas
 
     Run the script.
 
-### Mathematical Framework
+### Element Stiffness Matrix
+The local stiffness matrix $k_e$ for each truss element is defined as:
 
-The solver utilizes the standard truss element stiffness relationship:
-K = EA/L [​​C^2 C*S −C^2 −C*S 
-          ​C*S S^2 −C*S −S^2​
-          −C^2 −C*S C^2 C*S​
-          −C*S −S^2 C*S S^2]​​
+$$
+k_e = \frac{EA}{L} \begin{bmatrix} 
+C^2 & CS & -C^2 & -CS \\ 
+CS & S^2 & -CS & -S^2 \\ 
+-C^2 & -CS & C^2 & CS \\ 
+-CS & -S^2 & CS & S^2 
+\end{bmatrix}
+$$
 
-Where C=cos(θ) and S=sin(θ) are the direction cosines based on node coordinates.
+Where:
+* $C = \cos(\theta) = \frac{x_2 - x_1}{L}$
+* $S = \sin(\theta) = \frac{y_2 - y_1}{L}$
+
 ## Example Visualization
 
 When executed, the program generates a figure showing:
