@@ -49,7 +49,10 @@ A MATLAB-based Finite Element Analysis tool designed to solve static linear elas
 ### Mathematical Framework
 
 The solver utilizes the standard truss element stiffness relationship:
-ke​=LEA​​C2CS−C2−CS​CSS2−CS−S2​−C2−CSC2CS​−CS−S2CSS2​​
+K = EA/L [​​C^2 C*S −C^2 −C*S 
+          ​C*S S^2 −C*S −S^2​
+          −C^2 −C*S C^2 C*S​
+          −C*S −S^2 C*S S^2]​​
 
 Where C=cos(θ) and S=sin(θ) are the direction cosines based on node coordinates.
 ## Example Visualization
