@@ -1,53 +1,26 @@
-Finite Element Method (FEM) Truss Solver
+# Finite Element Method (FEM) Truss Solver & GUI
 
-A MATLAB-based Finite Element Analysis tool designed to solve static linear elastic problems for truss structures. The solver calculates global displacements, reaction forces, and internal stresses, providing a visual comparison between the undeformed and deformed configurations.
-## Features
+A MATLAB-based suite for solving static linear elastic problems in truss structures. This project features a robust numerical engine and an interactive **MATLAB App** for real-time design, file import, and visualization.
 
-    Automated Assembly: Generates global stiffness matrices from element-level properties.
+## 🚀 Features
 
-    Boundary Condition Handling: Supports both Essential (Dirichlet) and Natural (Neumann) boundary conditions.
+### 🛠 The FEM Engine
+* **Automated Assembly:** Generates global stiffness matrices from element-level properties.
+* **Static Solver:** Partitions the system ($KU = F$) to solve for unknown displacements and reaction forces.
+* **Stress Analysis:** Calculates axial stress ($\sigma = E \cdot \epsilon$) for every member based on nodal displacement.
 
-    Static Solver: Partitions the global system of equations (KU=F) to solve for unknown displacements and reaction forces.
+### 🖥 The Interactive App (`app1.mlapp`)
+* **Real-time Plotting:** Visualize your truss geometry instantly as you add nodes and elements.
+* **Excel Integration:** Import complex geometries from `.xlsx` files with automatic plot refreshing.
+* **Customization:** * Adjust node/element scales via interactive sliders.
+    * Toggle Node Labels for better visibility.
+    * Switch between colormaps (**Jet**, **Parula**, **Bone**) for visual depth.
 
-    Post-Processing: Visualizes the mesh with node and element numbering.
+---
 
-        Plots the deformed shape with a user-defined magnification factor (mag).
+## 📊 Mathematical Framework
 
-        Stress Heatmap: Uses a color-coded gradient (stress distribution) on elements based on axial strain.
-
-## Project Structure
-
-    main.m: The entry point script containing preprocessing parameters, the solution algorithm, and the post-processing call.
-
-    assign_BCs.m: Defines the geometry, constraints, and external loads.
-
-    assemble_stiffness.m: Iterates through elements to build the global stiffness matrix.
-
-    element_stiffness.m: Computes the 4×4 local stiffness matrix for a 2D truss element.
-
-    assemble_forces.m & assemble_displacements.m: Organizes known boundary values into vectors.
-
-    update_nodes.m: Maps the solution back to the Extended Node List (ENL) for plotting.
-
-    post_process.m: Handles the graphical output using MATLAB's plotting and surface functions.
-
-## Getting Started
-### Prerequisites
-
-    MATLAB (R2018a or later recommended).
-
-### Usage
-
-    Clone or download the repository files into a single folder.
-
-    Open main.m.
-
-    Adjust the material properties (E, A) and the geometry in NL and EL if desired.
-
-    Run the script.
-
-### Element Stiffness Matrix
-The local stiffness matrix $k_e$ for each truss element is defined as:
+The solver utilizes the local-to-global transformation of the element stiffness matrix $k_e$:
 
 $$
 k_e = \frac{EA}{L} \begin{bmatrix} 
@@ -58,16 +31,45 @@ CS & S^2 & -CS & -S^2 \\
 \end{bmatrix}
 $$
 
-Where:
+**Where:**
 * $C = \cos(\theta) = \frac{x_2 - x_1}{L}$
 * $S = \sin(\theta) = \frac{y_2 - y_1}{L}$
 
-## Example Visualization
+---
 
-When executed, the program generates a figure showing:
+## 📂 Project Structure
 
-    Light Grey Lines: The original, undeformed truss.
+| File | Description |
+| :--- | :--- |
+| `FEM_UI.m` | The MATLAB App Designer class containing the GUI logic. |
+| `main.m` | Script-based entry point for full numerical analysis. |
+| `element_stiffness.m` | Function to compute the $4 \times 4$ local stiffness matrix. |
+| `assemble_stiffness.m` | Function to construct the global stiffness matrix $K$. |
+| `assign_BCs.m` | Defines geometry, constraints (DOCs), and degrees of freedom (DOFs). |
+| `post_process.m` | Handles deformed vs. undeformed plotting and stress heatmaps. |
 
-    Colored Solid Lines: The deformed truss, where the color represents the magnitude of axial stress (σ).
+---
 
-    Nodes: Highlighted points indicating the new equilibrium positions.
+## 📥 Getting Started
+
+### Prerequisites
+* **MATLAB R2020a** or later (required for App Designer components).
+* **Excel** (if using the spreadsheet import feature).
+
+### Excel Import Format
+To use the **Read NL & EL** button, ensure your `.xlsx` file is formatted as follows (no headers required):
+
+| Col A (Node X) | Col B (Node Y) | Col C (Elem Node 1) | Col D (Elem Node 2) |
+| :--- | :--- | :--- | :--- |
+| 0 | 0 | 1 | 2 |
+| 1 | 0 | 2 | 3 |
+| 0.5 | 1 | 3 | 1 |
+
+### Troubleshooting: File Paths
+When importing Excel files, the App uses `fullfile` to generate absolute paths. Ensure the `.xlsx` file is not currently open in another program (like Excel) to avoid permission errors.
+
+---
+
+## 🛠 Usage
+1. **Interactive GUI:** Open `app1.mlapp` in MATLAB and click **Run**, or type `app1` in the Command Window.
+2. **Batch Script:** Edit coordinates and properties in `main.m` and run the script for detailed stress-strain output.
