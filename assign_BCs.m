@@ -7,64 +7,29 @@ ENL = zeros(NoN, PD*6);
 
 ENL(:,1:2) = NL; % Coordinates
 
-for i = 1 : NoN
-
-    if(( ENL(i,1) == 0 && ENL(i,2) == 0)) % Node 1
-
-        ENL(i,3) = -1; %D (BC)
-        ENL(i,4) = -1; %D
-
-        ENL(i,9) = 0; %Prescribed  Displacement of x
-        ENL(i,10) = 0; %Prescribed Displacement of y
-
-    elseif(( ENL(i,1) == 1) && (ENL(i,2) == 0)) % Node 2
-
-        ENL(i,3) = 1; %N
-        ENL(i,4) = -1; %D
-
-        ENL(i,11) = 0; %Prescribed Force of x
-        ENL(i,12) = 0; %Prescribed Displacement of y
-
-    elseif(( ENL(i,1) == 0.5) && (ENL(i,2) == 1)) % Node 3
-
-        ENL(i,3) = 1; %N
-        ENL(i,4) = 1; %N
-
-        ENL(i,11) = 0; %Prescribed Force of x
-        ENL(i,12) = -20; %Prescribed Force of y
-
-    end
-end
-
 DOFs = 0;
 DOCs = 0;
 
 for i = 1:NoN
     for j = 1:PD
-
+        % If Type is -1 (Displacement), it's a Degree of Constraint
         if (ENL(i,PD+j) == -1)
-
             DOCs = DOCs - 1;
             ENL(i,2*PD+j) = DOCs;
-
         else
-
+            % Otherwise (Type 0 or 1), it's a Degree of Freedom
             DOFs = DOFs + 1;
             ENL(i,2*PD+j) = DOFs;
         end
     end
 end
 
+% 4. Assign Global Matrix Positions
 for i = 1:NoN
-
     for j = 1:PD
-
         if(ENL(i,(2*PD+j)) < 0)
-
             ENL(i,PD*3+j) = DOFs + abs(ENL(i,(2*PD+j)));
-
         else
-
             ENL(i,PD*3+j) = ENL(i,(2*PD+j));
         end
     end
